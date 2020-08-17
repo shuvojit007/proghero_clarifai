@@ -85,7 +85,7 @@ class clarifaiController extends Controller
     public function apparelDetection($imageurl){
         
         $ch = curl_init();
-        $imgurl = 'https://scontent.fdac31-1.fna.fbcdn.net/v/t1.0-9/117244889_3817065401643690_8295446081903188797_n.jpg?_nc_cat=111&_nc_sid=8024bb&_nc_ohc=UjJQB_0Zv7IAX-fFThz&_nc_ht=scontent.fdac31-1.fna&oh=c9ea50d23b395e20fabe1ec9fdc2f2cb&oe=5F5AEA56';
+        $imgurl = '/images'.$imageurl;
 
         $data = '
         {
@@ -93,7 +93,7 @@ class clarifaiController extends Controller
               {
                 "data": {
                   "image": {
-                    "url": "'.$imgurl.'"
+                    "url": "'.asset($imgurl).'"
                   }
                 }
               }
@@ -185,10 +185,10 @@ class clarifaiController extends Controller
     }
 
 
-    public function visual_search(Request $request){
+    public function visual_search(Request $request, $imageurl){
 
 
-        $imageurl = $request->input('imageurl');
+        // $imageurl = $request->input('imageurl');
 
         // dd($imageurl);
         $client = new ClarifaiClient('c37baaad5dce485abbabe363cf133a31');
@@ -232,7 +232,9 @@ class clarifaiController extends Controller
 
             // dd($image);
 
-            echo '<img src="'.asset('images/'.$name).'" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">';
+            // echo '<img src="'.asset('images/'.$name).'" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">';
+
+            $this->apparelDetection($name);
             // return back()->with('success','Image Upload successfully');
         }
     }

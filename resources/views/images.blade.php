@@ -34,7 +34,9 @@
         <br>    
 
             @foreach($images as $img)
-                <img src="{{asset('images/'.$img)}}" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">
+                <a href="{{url('/getproducts')}}/{{asset('images/'.$img)}}">
+                    <img src="{{asset('images/'.$img)}}" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">
+                </a>
             @endforeach
         </div>
     </div>
