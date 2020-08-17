@@ -15,7 +15,8 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.22.2",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "yish/imgur": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

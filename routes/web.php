@@ -18,4 +18,4 @@ Route::post('/img_upload', "clarifaiController@imgUpload");
 Route::get('/test', "clarifaiController@apparelDetection");
 
 Route::post('/visual_search', "clarifaiController@visual_search");
-Route::get('/getproducts/{imgurl}', "clarifaiController@visual_search");
+Route::post('/getproducts', "clarifaiController@visual_search");

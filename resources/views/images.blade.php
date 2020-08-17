@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+
+    // dd($images);
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +22,7 @@
         <div class="col-sm text-center" >
         <h6>Searched Image</h6>
         <br>    
-            <img src="{{$search_img}}" alt="" class="img-thumbnail rounded" style="height: 350px;">
+            <img src="{{$imageurl}}" alt="" class="img-thumbnail rounded" style="height: 350px;">
         </div>
     </div>
 
@@ -33,9 +37,11 @@
         <br>    
 
             @foreach($images as $img)
-                <!-- <a href=""> -->
-                    <img src="{{asset('images/'.$img)}}" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">
-                <!-- </a> -->
+                <form action="{{url('/getproducts')}}" method="post">
+                {{csrf_field()}}
+                    <input type="hidden" name="imgname" value="{{$img->data->url}}">
+                    <input type="image" src="{{$img->data->url}}" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">
+                </form>
             @endforeach
         </div>
     </div>
