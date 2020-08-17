@@ -72,7 +72,7 @@ class clarifaiController extends Controller
             // header('Content-Type: image/png');
             // ob_start();
             imagepng($croppedImg,  public_path()."/images/".$value["product"].".png");
-
+            imagedestroy($croppedImg);
             // $imagedata = ob_get_clean();
             // dd();
 
