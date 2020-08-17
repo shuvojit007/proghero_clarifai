@@ -85,8 +85,8 @@ class clarifaiController extends Controller
     public function apparelDetection($imageurl){
         
         $ch = curl_init();
-        $imgurl = '/images'.$imageurl;
-
+        // $imgurl = asset().'/images/'.$imageurl;
+        $imgurl = asset('images/'.$imageurl);
         $data = '
         {
             "inputs": [
