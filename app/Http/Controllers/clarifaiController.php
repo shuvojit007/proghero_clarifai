@@ -143,7 +143,7 @@ class clarifaiController extends Controller
         // dd($data);
 
         $imageBoundingBoX =  $this->getCroppedBoxArray($imgurl, $data);
-        dd($imageBoundingBoX);
+        // dd($imageBoundingBoX);
         // foreach ($imageBoundingBoX as $key => $value) {
             
         //     print '<p><img src="data:image/png;base64,'.base64_encode($value).'" alt="image 1" width="96" height="48"/></p>';
