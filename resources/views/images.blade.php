@@ -18,7 +18,9 @@
         <div class="col-sm text-center" >
         <h6>Searched Image</h6>
         <br>    
-        
+        <?php
+            dd("Hello");
+        ?>
             <img src="{{$search_img}}" alt="" class="img-thumbnail rounded" style="height: 350px;">
         </div>
     </div>
@@ -34,9 +36,9 @@
         <br>    
 
             @foreach($images as $img)
-                <a href="{{url('/getproducts')}}/{{asset('images/'.$img)}}">
+                <!-- <a href=""> -->
                     <img src="{{asset('images/'.$img)}}" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">
-                </a>
+                <!-- </a> -->
             @endforeach
         </div>
     </div>
