@@ -118,8 +118,15 @@ class clarifaiController extends Controller
         // dd(json_decode($server_output));
         
         $response = json_decode($server_output);
+        
+        if (! property_exists($response->outputs[0]->data, 'regions') ) {
+            print_r($response);
+            dd($regions);
 
+        }
         $regions = $response->outputs[0]->data->regions;
+
+
         $data = [];
         foreach($regions as $region){
 

@@ -26,7 +26,7 @@
     <form action="{{action('clarifaiController@imgUpload')}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">
-            <label for="exampleInputEmail1">Image URL</label>
+            <label for="exampleInputEmail1">Upload Image</label>
             <!-- <input type="text" name="imageurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Provide your Image URL"> -->
             <input type="file" name="input_img" id="product_img">
         </div>
