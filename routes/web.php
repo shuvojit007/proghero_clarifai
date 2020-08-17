@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', "clarifaiController@index");
+Route::post('/img_upload', "clarifaiController@imgUpload");
 Route::get('/test', "clarifaiController@apparelDetection");
 
 Route::post('/visual_search', "clarifaiController@visual_search");

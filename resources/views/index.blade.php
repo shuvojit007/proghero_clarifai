@@ -13,11 +13,22 @@
     <br>
     <br>
     <br>
-    <form action="{{action('clarifaiController@visual_search')}}" method="post">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
+    <form action="{{action('clarifaiController@imgUpload')}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">
             <label for="exampleInputEmail1">Image URL</label>
-            <input type="text" name="imageurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Provide your Image URL">
+            <!-- <input type="text" name="imageurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Provide your Image URL"> -->
+            <input type="file" name="input_img" id="product_img">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 

@@ -82,7 +82,7 @@ class clarifaiController extends Controller
         return $images;
     }
 
-    public function apparelDetection(){
+    public function apparelDetection($imageurl){
         
         $ch = curl_init();
         $imgurl = 'https://scontent.fdac31-1.fna.fbcdn.net/v/t1.0-9/117244889_3817065401643690_8295446081903188797_n.jpg?_nc_cat=111&_nc_sid=8024bb&_nc_ohc=UjJQB_0Zv7IAX-fFThz&_nc_ht=scontent.fdac31-1.fna&oh=c9ea50d23b395e20fabe1ec9fdc2f2cb&oe=5F5AEA56';
@@ -215,6 +215,26 @@ class clarifaiController extends Controller
         }
 
         return view("products", ['result' => $result, 'search_img' => $imageurl]);
+    }
+
+
+    public function imgUpload(Request $request){
+        
+        $this->validate($request, [
+            'input_img' => 'required|image|max:2048',
+        ]);
+        // dd("Hello");
+        if ($request->hasFile('input_img')) {
+            $image = $request->file('input_img');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $name);
+
+            // dd($image);
+
+            echo '<img src="'.asset('images/'.$name).'" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">';
+            // return back()->with('success','Image Upload successfully');
+        }
     }
 
 }
