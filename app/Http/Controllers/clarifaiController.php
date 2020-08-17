@@ -10,6 +10,7 @@ use Clarifai\DTOs\Predictions\Concept;
 use Clarifai\DTOs\Searches\SearchBy;
 use Clarifai\DTOs\Searches\SearchInputsResult;
 use Clarifai\DTOs\Models\ModelType;
+use Imgur;
 
 class clarifaiController extends Controller
 {
@@ -78,22 +79,50 @@ class clarifaiController extends Controller
             array_push($images, $value["product"].".png");
             
         }
-
-        return $images;
+        $responses = $this->uploadImages($images);
+        // dd($responses);
+        return $responses;
     }
 
+    public function uploadImages($images){
+        $responses = [];
+        $curl = curl_init();
+
+        foreach ($images as $key => $value) {
+            
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.imgbb.com/1/upload?key=28f24262f25a666786758692a7ff70a0",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array('image'=> new \CurlFile(public_path('images/').$value)),
+            ));
+    
+            $response = curl_exec($curl);
+            array_push($responses, json_decode($response));
+        }
+
+
+        curl_close($curl);
+
+        return $responses;
+    }
     public function apparelDetection($imageurl){
         
         $ch = curl_init();
         // $imgurl = asset().'/images/'.$imageurl;
-        $imgurl = asset('images/'.$imageurl);
+        // $imgurl = asset('images/'.$imageurl);
         $data = '
         {
             "inputs": [
               {
                 "data": {
                   "image": {
-                    "url": "'.asset($imgurl).'"
+                    "url": "'.$imageurl.'"
                   }
                 }
               }
@@ -118,7 +147,7 @@ class clarifaiController extends Controller
         // dd(json_decode($server_output));
         
         $response = json_decode($server_output);
-        dd($response);
+        // dd($response);
         if (! property_exists($response->outputs[0]->data, 'regions') ) {
             print_r($response);
             dd($regions);
@@ -142,15 +171,15 @@ class clarifaiController extends Controller
 
         // dd($data);
 
-        $imageBoundingBoX =  $this->getCroppedBoxArray($imgurl, $data);
-        dd($imageBoundingBoX);
-        foreach ($imageBoundingBoX as $key => $value) {
+        return $imageBoundingBoX =  $this->getCroppedBoxArray($imageurl, $data);
+        // dd($imageBoundingBoX);
+        // foreach ($imageBoundingBoX as $key => $value) {
             
-            print '<p><img src="data:image/png;base64,'.base64_encode($value).'" alt="image 1" width="96" height="48"/></p>';
-        }
-        curl_close ($ch);
+        //     print '<p><img src="data:image/png;base64,'.base64_encode($value).'" alt="image 1" width="96" height="48"/></p>';
+        // }
+        // curl_close ($ch);
 
-        return view("images", ['images' => $imageBoundingBoX, "search_img" => $imgurl]);
+        // return view("images", compact("imageBoundingBoX", "imageurl"));
     }
     //
     public function testClarifai(){
@@ -192,10 +221,11 @@ class clarifaiController extends Controller
     }
 
 
-    public function visual_search(Request $request, $imageurl){
+    public function visual_search(Request $request){
 
-
-        // $imageurl = $request->input('imageurl');
+        // $imageurl = urldecode($imageurl); 
+        // dd($imageurl);
+        $imageurl = $request->input('imgname');
 
         // dd($imageurl);
         $client = new ClarifaiClient('c37baaad5dce485abbabe363cf133a31');
@@ -226,6 +256,7 @@ class clarifaiController extends Controller
 
 
     public function imgUpload(Request $request){
+        set_time_limit ( 60000 );
         
         $this->validate($request, [
             'input_img' => 'required|image|max:2048',
@@ -241,9 +272,33 @@ class clarifaiController extends Controller
 
             // echo '<img src="'.asset('images/'.$name).'" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">';
 
-            $this->apparelDetection($name);
-            // return back()->with('success','Image Upload successfully');
+            // dd(public_path('images/').$name);
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+
+                CURLOPT_URL => "https://api.imgbb.com/1/upload?key=28f24262f25a666786758692a7ff70a0",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array('image'=> new \CurlFile(public_path('images/').$name)),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            // dd();
+
+            $phpResponse = json_decode($response);
+            $images = $this->apparelDetection($phpResponse->data->url);
+            $imageurl = $phpResponse->data->url;
+            // dd($images);
+
+            return view("images", compact("images", "imageurl"));
         }
     }
-
 }
