@@ -118,7 +118,7 @@ class clarifaiController extends Controller
         // dd(json_decode($server_output));
         
         $response = json_decode($server_output);
-        
+        dd($response);
         if (! property_exists($response->outputs[0]->data, 'regions') ) {
             print_r($response);
             dd($regions);
@@ -143,11 +143,11 @@ class clarifaiController extends Controller
         // dd($data);
 
         $imageBoundingBoX =  $this->getCroppedBoxArray($imgurl, $data);
-        // dd($imageBoundingBoX);
-        // foreach ($imageBoundingBoX as $key => $value) {
+        dd($imageBoundingBoX);
+        foreach ($imageBoundingBoX as $key => $value) {
             
-        //     print '<p><img src="data:image/png;base64,'.base64_encode($value).'" alt="image 1" width="96" height="48"/></p>';
-        // }
+            print '<p><img src="data:image/png;base64,'.base64_encode($value).'" alt="image 1" width="96" height="48"/></p>';
+        }
         curl_close ($ch);
 
         return view("images", ['images' => $imageBoundingBoX, "search_img" => $imgurl]);

@@ -18,9 +18,6 @@
         <div class="col-sm text-center" >
         <h6>Searched Image</h6>
         <br>    
-        <?php
-            dd("Hello");
-        ?>
             <img src="{{$search_img}}" alt="" class="img-thumbnail rounded" style="height: 350px;">
         </div>
     </div>
