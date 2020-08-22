@@ -88,6 +88,7 @@ class clarifaiController extends Controller
         $responses = [];
         $curl = curl_init();
 
+        // dd($images);
         foreach ($images as $key => $value) {
             
             curl_setopt_array($curl, array(
@@ -103,9 +104,13 @@ class clarifaiController extends Controller
             ));
     
             $response = curl_exec($curl);
-            array_push($responses, json_decode($response));
+            
+            $product_name = explode(".",$value);
+            array_push($responses, [
+                "product" => $product_name[0],
+                "response" => json_decode($response)
+            ]);
         }
-
 
         curl_close($curl);
 
@@ -160,9 +165,10 @@ class clarifaiController extends Controller
         foreach($regions as $region){
 
             $bounding_box = $region->region_info->bounding_box;
+            $product_name = str_replace("/","_",$region->data->concepts[0]->name);
             $product = [
                 "bounding_box" => $bounding_box,
-                "product" => $region->data->concepts[0]->name
+                "product" => $product_name
             ];
 
             array_push($data, $product);
@@ -276,7 +282,6 @@ class clarifaiController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-
                 CURLOPT_URL => "https://api.imgbb.com/1/upload?key=28f24262f25a666786758692a7ff70a0",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",

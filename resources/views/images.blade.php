@@ -33,15 +33,36 @@
     <div class="row text-center">
     
         <div class="col-sm">
-        <h6>Matching Results.</h6>
-        <br>    
+        <h6>Matching Results. Now <b>Click!!</b> on the image to find out similar products.</h6>
+        <p>Products found:</p>
 
+        @foreach($images as $img)
+            <?php
+                
+                $img_url = $img['response']->data->url;
+            ?>
+                
+                <span class="badge badge-primary">{{$img['product']}}</span>
+                
+        @endforeach
+
+        <br>    
+        <br>    
+            
             @foreach($images as $img)
-                <form action="{{url('/getproducts')}}" method="post">
-                {{csrf_field()}}
-                    <input type="hidden" name="imgname" value="{{$img->data->url}}">
-                    <input type="image" src="{{$img->data->url}}" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">
-                </form>
+            <?php
+                
+                $img_url = $img['response']->data->url;
+            ?>
+                <span>
+                    <form action="{{url('/getproducts')}}" method="post">
+                    {{csrf_field()}}
+                    
+                        <input type="hidden" name="imgname" value="{{$img['response']->data->url}}">
+                        <input type="image" src="{{$img_url}}" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">
+                    </form>
+                </span>
+                
             @endforeach
         </div>
     </div>
