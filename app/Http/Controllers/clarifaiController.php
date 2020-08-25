@@ -263,44 +263,44 @@ class clarifaiController extends Controller
 
     public function imgUpload(Request $request){
         set_time_limit ( 60000 );
-        
+        // dd($request);
         $this->validate($request, [
-            'input_img' => 'required|image',
+            'image_data' => 'required',
         ]);
         // dd("Hello");
-        if ($request->hasFile('input_img')) {
-            $image = $request->file('input_img');
-            $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/images');
-            $image->move($destinationPath, $name);
+        if (true) {
+            // $image = $request->file('input_img');
+            // $name = time().'.'.$image->getClientOriginalExtension();
+            // $destinationPath = public_path('/images');
+            // $image->move($destinationPath, $name);
 
-            // dd($image);
+            // // dd($image);
 
-            // echo '<img src="'.asset('images/'.$name).'" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">';
+            // // echo '<img src="'.asset('images/'.$name).'" alt="" class="img-thumbnail rounded float-left" style="margin: 10px;height: 200px;padding: 10px;">';
 
-            // dd(public_path('images/').$name);
-            $curl = curl_init();
+            // // dd(public_path('images/').$name);
+            // $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.imgbb.com/1/upload?key=28f24262f25a666786758692a7ff70a0",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => array('image'=> new \CurlFile(public_path('images/').$name)),
-            ));
+            // curl_setopt_array($curl, array(
+            //     CURLOPT_URL => "https://api.imgbb.com/1/upload?key=28f24262f25a666786758692a7ff70a0",
+            //     CURLOPT_RETURNTRANSFER => true,
+            //     CURLOPT_ENCODING => "",
+            //     CURLOPT_MAXREDIRS => 10,
+            //     CURLOPT_TIMEOUT => 0,
+            //     CURLOPT_FOLLOWLOCATION => true,
+            //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            //     CURLOPT_CUSTOMREQUEST => "POST",
+            //     CURLOPT_POSTFIELDS => array('image'=> new \CurlFile(public_path('images/').$name)),
+            // ));
 
-            $response = curl_exec($curl);
+            // $response = curl_exec($curl);
 
-            curl_close($curl);
-            // dd();
+            // curl_close($curl);
+            // dd(json_decode($request->image_data));
 
-            $phpResponse = json_decode($response);
-            $images = $this->apparelDetection($phpResponse->data->url);
-            $imageurl = $phpResponse->data->url;
+            $phpResponse = json_decode($request->image_data);
+            $images = $this->apparelDetection($phpResponse->data->medium->url);
+            $imageurl = $phpResponse->data->medium->url;
             // dd($images);
 
             return view("images", compact("images", "imageurl"));

@@ -22,14 +22,16 @@
             </ul>
         </div>
     @endif
-    
+    <label for="exampleInputEmail1">Upload Image</label>
+    <input type="file" id="input_img" onchange="fileChange()" accept="image/*">
+
     <form action="{{action('clarifaiController@imgUpload')}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
-        <!-- <input type="file" id="input_img" onchange="fileChange()" accept="image/*"> -->
+        
         <div class="form-group">
-            <label for="exampleInputEmail1">Upload Image</label>
+            <input type="hidden" id="image_data" name="image_data">
             <!-- <input type="text" name="imageurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Provide your Image URL"> -->
-            <input type="file" name="input_img" id="product_img">
+            <!-- <input type="file" name="input_img" id="product_img"> -->
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -44,7 +46,7 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
@@ -71,11 +73,12 @@ function fileChange(){
     };
 
 
-    $.ajax(settings).done(function (response) {
-    console.log(response);
-    var jx = JSON.parse(response);
-    console.log(jx.data.url);
-
+        $.ajax(settings).done(function (response) {
+        console.log(response);
+        var jx = JSON.parse(response);
+        console.log(jx.data.url);
+    
+        $("#image_data").val(response);
 
     });
 }
