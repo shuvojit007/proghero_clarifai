@@ -33,7 +33,7 @@
             <!-- <input type="text" name="imageurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Provide your Image URL"> -->
             <!-- <input type="file" name="input_img" id="product_img"> -->
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
 
     </form>
 
@@ -61,15 +61,17 @@ function fileChange(){
     var file = document.getElementById('input_img');
     var form = new FormData();
     form.append("image", file.files[0])
+    $("#submit").html("image loading");
+    $("#submit").prop("disabled",true);
 
     var settings = {
-    "url": "https://api.imgbb.com/1/upload?key=28f24262f25a666786758692a7ff70a0",
-    "method": "POST",
-    "timeout": 0,
-    "processData": false,
-    "mimeType": "multipart/form-data",
-    "contentType": false,
-    "data": form
+        "url": "https://api.imgbb.com/1/upload?key=28f24262f25a666786758692a7ff70a0",
+        "method": "POST",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false,
+        "data": form
     };
 
 
@@ -77,7 +79,8 @@ function fileChange(){
         console.log(response);
         var jx = JSON.parse(response);
         console.log(jx.data.url);
-    
+        $("#submit").prop("disabled",false);
+        $("#submit").html("Submit");
         $("#image_data").val(response);
 
     });

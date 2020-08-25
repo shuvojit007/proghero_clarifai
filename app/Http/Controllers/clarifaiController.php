@@ -299,8 +299,15 @@ class clarifaiController extends Controller
             // dd(json_decode($request->image_data));
 
             $phpResponse = json_decode($request->image_data);
-            $images = $this->apparelDetection($phpResponse->data->medium->url);
-            $imageurl = $phpResponse->data->medium->url;
+
+            if (! property_exists($phpResponse->data, 'medium') ) {
+                $img_url = $phpResponse->data->url;
+    
+            } else{
+                $img_url = $phpResponse->data->medium->url;
+            }
+            $images = $this->apparelDetection($img_url);
+            $imageurl = $img_url;
             // dd($images);
 
             return view("images", compact("images", "imageurl"));
