@@ -77,7 +77,7 @@
     @endif
     
     <label for="exampleInputEmail1">Upload Image</label>
-    <input type="file" id="input_img" onchange="fileChange()" accept="image/*">
+    <input type="file" id="input_img" accept="image/*">
 
     <form action="{{action('clarifaiController@imgUpload')}}" method="post" id="form_img" enctype="multipart/form-data">
         {{csrf_field()}}
@@ -88,7 +88,7 @@
             <!-- <input type="text" name="imageurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Provide your Image URL"> -->
             <!-- <input type="file" name="input_img" id="product_img"> -->
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="fileChange(event);">Submit</button>
 
     </form>
 
@@ -115,7 +115,10 @@ $("#exampleInputEmail1").change(function(){
     $(".img_parent").html("<img src='"+ $(this).val()+"' alt='' style='height:400px'>");
 })
 
-function fileChange(){
+function fileChange(event){
+
+    event.preventDefault()
+
     document.getElementById("loader").style.display = "block";
     document.getElementById("main_form").style.display = "none";
 
