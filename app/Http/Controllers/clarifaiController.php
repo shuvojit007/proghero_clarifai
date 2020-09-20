@@ -138,7 +138,7 @@ class clarifaiController extends Controller
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Key c37baaad5dce485abbabe363cf133a31',
+            'Authorization: Key 8dc2482f37264e309452e3725c1b474c',
             'Content-Type: application/json'
         ));
         // In real life you should use something like:
